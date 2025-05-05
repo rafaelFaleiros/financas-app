@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+    <meta charset="UTF-8"><title>Finanças • Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head><body>
+    <%- include('partials/header') %>
+
+    <main>
+      <section class="card"><h2>Gastos por Categoria (mês atual)</h2><canvas id="chart1"></canvas></section>
+      <section class="card"><h2>Comparativo Mês a Mês</h2><canvas id="chart2"></canvas></section>
+      <section class="card"><h2>Evolução de Saldo</h2><canvas id="chart3"></canvas></section>
+    </main>
+    <script>
+    const API='http://localhost:3001';
+    async function loadCharts(){
+      const month=(new Date()).toISOString().slice(0,7);
+      const [txs,buds,cats]=await Promise.all([
+        fetch(`${API}/transactions?month=${month}`).then(r=>r.json()),
+        fetch(API+'/budgets').then(r=>r.json()),
+        fetch(API+'/categories').then(r=>r.json())
+      ]);
+      // (a) chart1 = gastos vs orçamento (igual antes)
+      // (b) chart2 = para cada um dos últimos 6 meses, soma total
+      // (c) chart3 = saldo cumulativo dia a dia do mês atual
+      // … implemente lógica aqui (similar ao app.js antigo) …
+    }
+    $(loadCharts);
+    </script>
+  </body></html>
+  
