@@ -1,47 +1,25 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-    <meta charset="UTF-8"><title>Finanças • Categorias</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head><body>
-    <%- include('partials/header') %>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Categorias</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <%- include('partials/header') %>
 
-    <main>
-      <section class="card">
-        <h2>Gerenciar Categorias</h2>
-        <input id="newCatName" placeholder="Nova categoria"><button id="btnAddCat">Adicionar</button>
-        <ul id="catList"></ul>
-      </section>
-    </main>
-    <script>
-    const API = 'http://localhost:3001';
-    function loadCats(){
-      fetch(API+'/categories').then(r=>r.json()).then(cats=>{
-        $('#catList').empty();
-        cats.forEach(c=>$('#catList').append(`
-          <li data-id="${c.id}">
-            <input class="catName" value="${c.name}">
-            <button class="btnSaveCat">Salvar</button>
-            <button class="btnDelCat">Excluir</button>
-          </li>`));
-      });
-    }
-    $(async()=>{ loadCats();
-      $('#btnAddCat').click(async()=>{
-        const name = $('#newCatName').val();
-        await fetch(API+'/categories',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})});
-        $('#newCatName').val(''); loadCats();
-      });
-      $('#catList').on('click','.btnSaveCat',async function(){
-        const li = $(this).closest('li'), id=li.data('id'), name=li.find('.catName').val();
-        await fetch(`${API}/categories/${id}`,{ /* implemente PUT no backend se quiser */});
-        loadCats();
-      });
-      $('#catList').on('click','.btnDelCat',async function(){
-        const id=$(this).closest('li').data('id');
-        await fetch(`${API}/categories/${id}`,{method:'DELETE'});
-        loadCats();
-      });
-    });
-    </script>
-  </body></html>
-  
+  <main>
+    <section class="card">
+      <h2>Gerenciar Categorias</h2>
+      <div class="form-inline">
+        <input type="text" id="newCatName" placeholder="Nova categoria">
+        <button id="btnAddCat">Adicionar</button>
+      </div>
+      <ul id="catList" class="list"></ul>
+    </section>
+  </main>
+
+  <script src="/js/categories.js"></script>
+</body>
+</html>

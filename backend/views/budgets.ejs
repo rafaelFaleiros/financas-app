@@ -1,50 +1,22 @@
 <!DOCTYPE html><html lang="pt-BR"><head>
-    <meta charset="UTF-8"><title>Finanças • Orçamentos</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8"><title>Orçamentos</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head><body>
     <%- include('partials/header') %>
-
     <main>
       <section class="card">
-        <h2>Definir Orçamento Mensal</h2>
-        <select id="selCat"><option>Carregando…</option></select>
+        <h2>Definir Orçamento</h2>
+        <select id="selCat"><option value="">— Categoria —</option></select>
         <input type="month" id="inpMonth">
-        <input type="number" id="inpAmount" placeholder="Valor">
+        <input type="number" id="inpAmount" placeholder="R$ 0,00">
         <button id="btnAddBud">Salvar</button>
+      </section>
+      <section class="card">
+        <h2>Orçamentos Existentes</h2>
         <ul id="budList"></ul>
       </section>
     </main>
-    <script>
-    const API='http://localhost:3001';
-    async function loadCats(){
-      const cats=await fetch(API+'/categories').then(r=>r.json());
-      $('#selCat').empty().append('<option value="">—</option>');
-      cats.forEach(c=>$('#selCat').append(`<option value="${c.id}">${c.name}</option>`));
-    }
-    async function loadBuds(){
-      const buds=await fetch(API+'/budgets').then(r=>r.json());
-      $('#budList').empty();
-      buds.forEach(b=>{
-        $('#budList').append(`
-          <li>${b.month} – ${b.Category.name} – R$${b.amount.toFixed(2)}
-            <button data-id="${b.id}" class="btnDelBud">Excluir</button>
-          </li>`);
-      });
-    }
-    $(async()=>{
-      await loadCats(); await loadBuds();
-      $('#btnAddBud').click(async()=>{
-        const cId=$('#selCat').val(), m=$('#inpMonth').val(), v=parseFloat($('#inpAmount').val());
-        await fetch(API+'/budgets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({CategoryId:cId,month:m,amount:v})});
-        await loadBuds();
-      });
-      $('#budList').on('click','.btnDelBud',async function(){
-        const id=$(this).data('id');
-        await fetch(`${API}/budgets/${id}`,{method:'DELETE'});
-        loadBuds();
-      });
-    });
-    </script>
+    <script src="/js/budgets.js"></script>
   </body></html>
   

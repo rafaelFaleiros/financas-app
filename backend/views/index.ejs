@@ -1,51 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Finanças • Home</title>
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="UTF-8"><title>Home</title>
   <link rel="stylesheet" href="/css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-  <%- include('partials/header') %>
-
-  <main>
-    <section class="card">
+  </head><body>
+    <%- include('partials/header') %>
+    <main>
+      <section class="card">
         <h2>Importar Extrato Inter</h2>
-        <input type="file" id="csvFile" accept=".csv,.txt">
+        <input type="file" id="csvFile">
         <button id="btnImport">Importar</button>
-        <button id="btnSaveAll" class="secondary">Salvar tudo</button>
         <p id="importMsg"></p>
       </section>
-      
-
-    <section class="card">
-      <h2>Transações</h2>
-      <table id="txTable">
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Histórico</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-            <th>Saldo</th>
-            <th>Categoria</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Aqui serão injetadas as linhas -->
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <h2>Gastos × Orçamento (mês atual)</h2>
-      <canvas id="barChart"></canvas>
-    </section>
-  </main>
-
-  <script src="/js/app.js"></script>
-</body>
-</html>
+      <!-- Modal -->
+      <div id="importModal" class="modal">
+        <div class="modal-content">
+          <h3>Revisar e Salvar</h3>
+          <table id="modalTable">
+            <thead>
+              <tr>
+                <th>Data</th><th>Histórico</th><th>Descrição</th>
+                <th>Valor</th><th>Saldo</th><th>Categoria</th><th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <button id="btnSaveAll">Salvar Tudo</button>
+          <button id="btnCloseModal">Fechar</button>
+        </div>
+      </div>
+    </main>
+    <script src="/js/app.js"></script>
+  </body></html>
+  
